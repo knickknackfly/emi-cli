@@ -59,6 +59,11 @@ Server.prototype = {
                 app.set('etag', false);
                 app.use(favicon(path.join(__dirname, './source/favicon.ico')));
                 app.use('/__source__/', source.bind(this));
+                // before middleware
+                if (pc.config.beforeServerMiddleware) {
+                  pc.config.beforeServerMiddleware(app)
+                }
+                console.log(pc.config.beforeServerMiddleware)
                 //proxy middleware
                 proxy(app, __emi__.cwd, pc.config);
                 return webpack.getInstance(pc.config, __emi__.cwd, 'dev');
